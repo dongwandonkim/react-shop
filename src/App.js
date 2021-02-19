@@ -1,7 +1,32 @@
+import { useState, useEffect } from 'react';
 import { Navbar, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
+import axios from 'axios';
+// import fetchedData from './data';
+// import fetchedData from './fakeData';
+
+// const fetchedData = axios
+//   .get('https://fakestoreapi.com/products?limit=10')
+//   .then((res) => console.log(res.data))
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://fakestoreapi.com/products?limit=10')
+      .then((res) => {
+        console.log(res);
+        setData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -37,37 +62,27 @@ function App() {
       </Jumbotron>
       <div className="container">
         <div className="row">
-          <div className="col-md-4">
-            <img
-              src="https://images.dog.ceo/breeds/hound-afghan/n02088094_1003.jpg"
-              alt=""
-              width="100%"
-            />
-            <h4>Product Name</h4>
-            <p>desc / price</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src="https://images.dog.ceo/breeds/hound-afghan/n02088094_1007.jpg"
-              alt=""
-              width="100%"
-            />
-            <h4>Product Name</h4>
-            <p>desc / price</p>
-          </div>
-          <div className="col-md-4">
-            <img
-              src="https://images.dog.ceo/breeds/hound-afghan/n02088094_1023.jpg"
-              alt=""
-              width="100%"
-            />
-            <h4>Product Name</h4>
-            <p>desc / price</p>
-          </div>
+          {data
+            ? data.map((d, i) => {
+                console.log(d);
+                return <ProductCard data={d} index={i} key={d.id} />;
+              })
+            : 'Loading'}
         </div>
       </div>
     </div>
   );
 }
 
+function ProductCard(props) {
+  return (
+    <div className="col-md-4">
+      <img src={props.data.image} alt="" width="100%" />
+      <h4>{props.data.title}</h4>
+      <p>
+        {props.data.content} Price:{props.data.price}
+      </p>
+    </div>
+  );
+}
 export default App;
