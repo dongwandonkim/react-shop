@@ -6,6 +6,12 @@
   height: 40vmin;
   pointer-events: none;
 }
+.jumbotron {
+  background-image: url(assets/image3.jpg);
+  background-position: center;
+  background-size: cover;
+  color: white;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
