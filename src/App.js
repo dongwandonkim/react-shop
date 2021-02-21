@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Navbar, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
+import {
+  Navbar,
+  Nav,
+  NavDropdown,
+  Jumbotron,
+  Button,
+  Card,
+} from 'react-bootstrap';
 import './App.css';
 import axios from 'axios';
 // import fetchedData from './data';
@@ -76,13 +83,16 @@ function App() {
 
 function ProductCard(props) {
   return (
-    <div className="col-md-4">
-      <img src={props.data.image} alt="" width="100%" />
-      <h4>{props.data.title}</h4>
-      <p>
-        {props.data.content} Price:{props.data.price}
-      </p>
-    </div>
+    <Card className="col-md-3 rounded shadow-sm border-0 mx-auto">
+      <Card.Body className="p-4">
+        <Card.Img
+          className="img-fluid d-block mx-auto mb-3"
+          src={props.data.image}
+        />
+        <Card.Title>{props.data.title}</Card.Title>
+        <Card.Text>{props.data.price}</Card.Text>
+      </Card.Body>
+    </Card>
   );
 }
 export default App;
