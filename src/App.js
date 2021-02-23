@@ -8,18 +8,42 @@ import ProductCard from './ProductCard';
 
 function App() {
   const [data, setData] = useState([]);
+  const [productIndex, setProductIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       let res = await axios
-        .get('https://fakestoreapi.com/products?limit=8')
+        .get('https://fakestoreapi.com/products?limit=4')
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
+      if (res.data === undefined) return 'Loding';
       setData(res.data);
     };
     fetchData();
   }, []);
+
+  function getProductIndex() {
+    let lastProductIndex = Math.max.apply(
+      Math,
+      data.map(function (o) {
+        return o.id;
+      })
+    );
+    setProductIndex(lastProductIndex);
+  }
+  function loadMoreProduct() {
+    getProductIndex();
+    console.log(productIndex);
+    axios
+      .get(`https://fakestoreapi.com/products/${productIndex + 1}`)
+      .then((res) => {
+        console.log(res.data);
+        const newItem = [...data];
+        // newItem.push(res.data);
+        console.log(newItem);
+      });
+  }
 
   return (
     <div className="App">
@@ -30,8 +54,12 @@ function App() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/detail">Detail</Nav.Link>
+            <Nav.Link as={Link} to="/">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/detail">
+              Detail
+            </Nav.Link>
             <NavDropdown title="Dropdown" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">
@@ -46,32 +74,40 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-
-      <Route exact path="/">
-        <Jumbotron>
-          <h1>20% OFF on all orders above $100</h1>
-          <p>
-            Get the best deal for this spring! We offer free shipping and little
-            gifts for your pet
-          </p>
-          <p>
-            <Button variant="primary">Learn more</Button>
-          </p>
-        </Jumbotron>
-        <div className="container">
-          <div className="row">
-            {data
-              ? data.map((d, i) => {
-                  console.log(d);
-                  return <ProductCard data={d} index={i} key={d.id} />;
-                })
-              : 'Loading'}
+      <Switch>
+        <Route exact path="/">
+          <Jumbotron className="jumbotron">
+            <h1>20% OFF on all orders above $100</h1>
+            <p>
+              Get the best deal for this spring! We offer free shipping and
+              little gifts for your pet
+            </p>
+            <p>
+              <Button variant="primary">Learn more</Button>
+            </p>
+          </Jumbotron>
+          <div className="container">
+            <div className="row">
+              {data
+                ? data.map((d, i) => {
+                    return <ProductCard data={d} index={i} key={d.id} />;
+                  })
+                : 'Loading'}
+            </div>
+            <button
+              className="btn btn-info"
+              onClick={() => {
+                loadMoreProduct();
+              }}
+            >
+              Show more..
+            </button>
           </div>
-        </div>
-      </Route>
-      <Route exact path="/detail/:id">
-        <ProductDetail data={data} />
-      </Route>
+        </Route>
+        <Route exact path="/detail/:id">
+          <ProductDetail data={data} />
+        </Route>
+      </Switch>
     </div>
   );
 }
