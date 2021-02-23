@@ -11,7 +11,7 @@ function ProductCard(props) {
             src={props.data.image ? props.data.image : 'loding'}
           />
           <Card.Title>{props.data.title}</Card.Title>
-          <Card.Text>{props.data.price}</Card.Text>
+          <Card.Text>${props.data.price}</Card.Text>
         </Card.Body>
       </Link>
     </Card>
