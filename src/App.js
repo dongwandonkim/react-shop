@@ -8,7 +8,8 @@ import ProductCard from './ProductCard';
 
 function App() {
   const [data, setData] = useState([]);
-  const [productIndex, setProductIndex] = useState(0);
+  const [productIndex, setProductIndex] = useState(4);
+  // const [] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,26 +24,29 @@ function App() {
     fetchData();
   }, []);
 
-  function getProductIndex() {
-    let lastProductIndex = Math.max.apply(
-      Math,
-      data.map(function (o) {
-        return o.id;
-      })
-    );
-    setProductIndex(lastProductIndex);
-  }
-  function loadMoreProduct() {
-    getProductIndex();
-    console.log(productIndex);
-    axios
-      .get(`https://fakestoreapi.com/products/${productIndex + 1}`)
-      .then((res) => {
-        console.log(res.data);
-        const newItem = [...data];
-        // newItem.push(res.data);
-        console.log(newItem);
-      });
+  // function getProductIndex() {
+  //   let lastProductIndex = Math.max.apply(
+  //     Math,
+  //     data.map(function (o) {
+  //       return o.id;
+  //     })
+  //   );
+  //   // setProductIndex(lastProductIndex);
+  //   // console.log(productIndex);
+  //   loadMoreProduct(lastProductIndex);
+  // }
+
+  async function loadMoreProduct(idx) {
+    let newItem = [];
+    for (let i = idx; i < idx + 4; i++) {
+      await axios
+        .get(`https://fakestoreapi.com/products/${i + 1}`)
+        .then((res) => {
+          newItem.push(res.data);
+        });
+    }
+    setData([...data, ...newItem]);
+    setProductIndex(idx + 4);
   }
 
   return (
@@ -97,7 +101,7 @@ function App() {
             <button
               className="btn btn-info"
               onClick={() => {
-                loadMoreProduct();
+                loadMoreProduct(productIndex);
               }}
             >
               Show more..
