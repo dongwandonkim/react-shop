@@ -24,36 +24,26 @@ function App() {
     fetchData();
   }, []);
 
-  // function getProductIndex() {
-  //   let lastProductIndex = Math.max.apply(
-  //     Math,
-  //     data.map(function (o) {
-  //       return o.id;
-  //     })
-  //   );
-  //   // setProductIndex(lastProductIndex);
-  //   // console.log(productIndex);
-  //   loadMoreProduct(lastProductIndex);
-  // }
-
-  async function loadMoreProduct(idx) {
+  async function loadMoreProduct() {
     let newItem = [];
-    for (let i = idx; i < idx + 4; i++) {
+    for (let i = productIndex; i < productIndex + 4; i++) {
       await axios
         .get(`https://fakestoreapi.com/products/${i + 1}`)
         .then((res) => {
           newItem.push(res.data);
         });
     }
+    setProductIndex(productIndex + 4);
     setData([...data, ...newItem]);
-    setProductIndex(idx + 4);
+
+    console.log(productIndex);
   }
 
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand>
-          <Link to="/">Nana's Bowl</Link>
+        <Navbar.Brand as={Link} to="/">
+          Nana's Bowl
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -94,23 +84,33 @@ function App() {
             <div className="row">
               {data
                 ? data.map((d, i) => {
-                    return <ProductCard data={d} index={i} key={d.id} />;
+                    return (
+                      <ProductCard
+                        data={d}
+                        index={d.id}
+                        key={d.id}
+                        className="product-card"
+                      />
+                    );
                   })
                 : 'Loading'}
             </div>
-            <button
-              className="btn btn-info"
-              onClick={() => {
-                loadMoreProduct(productIndex);
-              }}
-            >
-              Show more..
-            </button>
+            {productIndex <= 16 ? (
+              <button
+                className="btn btn-info mt-3 mb-3"
+                onClick={() => {
+                  loadMoreProduct();
+                }}
+              >
+                Show more..
+              </button>
+            ) : null}
           </div>
         </Route>
         <Route exact path="/detail/:id">
           <ProductDetail data={data} />
         </Route>
+        <Route render={() => <h1>404: page not found</h1>} />
       </Switch>
     </div>
   );

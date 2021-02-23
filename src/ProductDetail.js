@@ -42,7 +42,7 @@ function ProductDetail(props) {
           <p>{filteredProduct.price}</p>
           <button className="btn btn-danger">Buy Now</button>
           <button
-            className="btn btn-info mx-a"
+            className="btn btn-info mx-2"
             onClick={() => {
               history.goBack();
             }}
