@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Navbar, Nav, NavDropdown, Jumbotron, Button } from 'react-bootstrap';
+import { Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
 import axios from 'axios';
 import { Link, Route, Switch } from 'react-router-dom';
+import NavBar from './NavBar';
 import ProductDetail from './ProductDetail';
 import ProductCard from './ProductCard';
+import Category from './Category';
 
 function App() {
   const [data, setData] = useState([]);
   const [productIndex, setProductIndex] = useState(4);
-  // const [] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,40 +42,14 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar bg="light" expand="lg">
-        <Navbar.Brand as={Link} to="/">
-          Nana's Bowl
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ml-auto">
-            <Nav.Link as={Link} to="/">
-              Home
-            </Nav.Link>
-            <Nav.Link as={Link} to="/detail">
-              Detail
-            </Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
+      <NavBar />
       <Switch>
         <Route exact path="/">
           <Jumbotron className="jumbotron">
             <h1>20% OFF on all orders above $100</h1>
             <p>
               Get the best deal for this spring! We offer free shipping and
-              little gifts for your pet
+              little gifts for your order!
             </p>
             <p>
               <Button variant="primary">Learn more</Button>
@@ -109,6 +84,9 @@ function App() {
         </Route>
         <Route exact path="/detail/:id">
           <ProductDetail data={data} />
+        </Route>
+        <Route exact path="/category/:categoryName">
+          <Category></Category>
         </Route>
         <Route render={() => <h1>404: page not found</h1>} />
       </Switch>
