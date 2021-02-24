@@ -13,6 +13,11 @@
   color: white;
   height: 50vh;
 }
+.text-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 a:-webkit-any-link {
   text-decoration: none;

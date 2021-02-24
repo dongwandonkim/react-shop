@@ -10,7 +10,7 @@ function Category(props) {
 
   useEffect(() => {
     fetchCategory(categoryName);
-  }, []);
+  }, [categoryName]);
 
   const fetchCategory = async (categoryName) => {
     let res = await axios
@@ -22,7 +22,7 @@ function Category(props) {
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mt-5">
         {cateData
           ? cateData.map((d, i) => {
               return (

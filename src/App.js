@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
 import axios from 'axios';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import NavBar from './NavBar';
 import ProductDetail from './ProductDetail';
 import ProductCard from './ProductCard';
 import Category from './Category';
+import Cart from './Cart';
 
 function App() {
   const [data, setData] = useState([]);
@@ -36,8 +37,7 @@ function App() {
     }
     setProductIndex(productIndex + 4);
     setData([...data, ...newItem]);
-
-    console.log(productIndex);
+    // console.log(productIndex);
   }
 
   return (
@@ -45,7 +45,7 @@ function App() {
       <NavBar />
       <Switch>
         <Route exact path="/">
-          <Jumbotron className="jumbotron">
+          <Jumbotron className="text-center">
             <h1>20% OFF on all orders above $100</h1>
             <p>
               Get the best deal for this spring! We offer free shipping and
@@ -79,7 +79,9 @@ function App() {
               >
                 Show more..
               </button>
-            ) : null}
+            ) : (
+              <div>All products are loaded</div>
+            )}
           </div>
         </Route>
         <Route exact path="/detail/:id">
@@ -87,6 +89,9 @@ function App() {
         </Route>
         <Route exact path="/category/:categoryName">
           <Category></Category>
+        </Route>
+        <Route exact path="/cart">
+          <Cart></Cart>
         </Route>
         <Route render={() => <h1>404: page not found</h1>} />
       </Switch>
