@@ -44,12 +44,25 @@ function Cart(props) {
           })}
         </tbody>
       </Table>
+      {props.alertState === true ? (
+        <div className="alert">
+          <p>order now and get 20% off</p>
+          <button
+            onClick={() => {
+              props.dispatch({ type: 'close' });
+            }}
+          >
+            close
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
 function stateToProps(state) {
   return {
-    state: state,
+    state: state.reducer,
+    alertState: state.alertReducer,
   };
 }
 

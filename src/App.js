@@ -12,6 +12,7 @@ import Cart from './Cart';
 function App() {
   const [data, setData] = useState([]);
   const [productIndex, setProductIndex] = useState(4);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +38,7 @@ function App() {
     }
     setProductIndex(productIndex + 4);
     setData([...data, ...newItem]);
+    setIsLoading(false);
     // console.log(productIndex);
   }
 
@@ -75,9 +77,11 @@ function App() {
                 className="btn btn-info mt-3 mb-3"
                 onClick={() => {
                   loadMoreProduct();
+                  setIsLoading(true);
                 }}
+                disabled={isLoading}
               >
-                Show more..
+                {isLoading === true ? 'Loading..' : 'Show more..'}
               </button>
             ) : (
               <div>All products are loaded</div>

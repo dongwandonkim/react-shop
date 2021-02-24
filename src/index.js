@@ -7,7 +7,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { combineReducers, createStore } from 'redux';
+
+let alertDefaultState = true;
+function alertReducer(alertState = alertDefaultState, action) {
+  if (action.type === 'close') {
+    return !alertState;
+  } else return alertState;
+}
 
 let defaultState = [
   { id: 0, name: 'shoes', qty: 2, price: 99.99 },
@@ -34,7 +41,7 @@ function reducer(state = defaultState, action) {
   }
 }
 
-let store = createStore(reducer);
+let store = createStore(combineReducers({ reducer, alertReducer }));
 
 ReactDOM.render(
   <React.StrictMode>
