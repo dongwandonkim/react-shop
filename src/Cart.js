@@ -21,19 +21,21 @@ function Cart(props) {
               <tr key={i}>
                 <td>{data.id}</td>
                 <td>{data.name}</td>
-                <td>{Math.ceil(data.price * data.qty)}</td>
+                <td>
+                  {(Math.round(data.price * data.qty * 100) / 100).toFixed(2)}
+                </td>
                 <td>{data.qty}</td>
                 <td>
                   <button
                     onClick={() => {
-                      props.dispatch({ type: 'increase' });
+                      props.dispatch({ type: 'increase', payload: data.id });
                     }}
                   >
                     +
                   </button>
                   <button
                     onClick={() => {
-                      props.dispatch({ type: 'decrease' });
+                      props.dispatch({ type: 'decrease', payload: data.id });
                     }}
                   >
                     -

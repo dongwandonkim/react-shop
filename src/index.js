@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 
-import { Provider } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
 let alertDefaultState = true;
@@ -16,26 +16,48 @@ function alertReducer(alertState = alertDefaultState, action) {
   } else return alertState;
 }
 
-let defaultState = [
-  { id: 0, name: 'shoes', qty: 2, price: 99.99 },
-  { id: 1, name: 'jean', qty: 5, price: 113.99 },
-  { id: 2, name: 'shirt', qty: 9, price: 79.99 },
-  { id: 3, name: 'socks', qty: 1, price: 12.99 },
-];
+let defaultState = [];
 
 function reducer(state = defaultState, action) {
-  if (action.type === 'increase') {
-    let copyState = [...state];
-    copyState[0].qty++;
-    return copyState;
-  } else if (action.type === 'decrease') {
-    let copyState = [...state];
-    if (copyState[0].qty <= 0) {
-      copyState[0].qty = 0;
+  if (action.type === 'addToCart') {
+    let sameProductIndex = state.findIndex((d) => {
+      return d.id === action.payload.id;
+    });
+    if (sameProductIndex >= 0) {
+      let copyState = [...state];
+      copyState[sameProductIndex].qty++;
+      return copyState;
+    } else {
+      let copyState = [...state];
+      copyState.push(action.payload);
       return copyState;
     }
-    copyState[0].qty--;
-    return copyState;
+  } else if (action.type === 'increase') {
+    let sameProductIndex = state.findIndex((d) => {
+      return d.id === action.payload;
+    });
+    if (sameProductIndex >= 0) {
+      let copyState = [...state];
+      copyState[sameProductIndex].qty++;
+      return copyState;
+    } else {
+      return state;
+    }
+  } else if (action.type === 'decrease') {
+    let sameProductIndex = state.findIndex((d) => {
+      return d.id === action.payload;
+    });
+    if (sameProductIndex >= 0) {
+      let copyState = [...state];
+      if (copyState[sameProductIndex].qty <= 0) {
+        copyState[sameProductIndex].qty = 0;
+        return copyState;
+      }
+      copyState[sameProductIndex].qty--;
+      return copyState;
+    } else {
+      return state;
+    }
   } else {
     return state;
   }

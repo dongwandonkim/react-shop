@@ -65,7 +65,7 @@ function App() {
                       <ProductCard
                         data={d}
                         index={d.id}
-                        key={d.id}
+                        key={i}
                         className="product-card"
                       />
                     );

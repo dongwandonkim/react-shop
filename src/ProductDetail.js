@@ -4,8 +4,9 @@ import { useHistory, useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { CSSTransition } from 'react-transition-group';
 import './ProductDetail.scss';
+import { connect } from 'react-redux';
 
-function ProductDetail() {
+function ProductDetail(props) {
   const [alert, setAlert] = useState(true);
   const [data, setData] = useState([]);
   const [tab, setTab] = useState(0);
@@ -36,13 +37,33 @@ function ProductDetail() {
     <div className="container">
       <div className="row mt-5">
         <div className="col-md-6">
-          <img src={data.image} width="100%" alt="img" />
+          {data.image ? (
+            <img src={data.image} width="100%" alt="img" />
+          ) : (
+            'loading image...'
+          )}
         </div>
         <div className="col-md-6 mt-4">
           <h4 className="pt-5">{data.title}</h4>
           <p>{data.description}</p>
           <p>${data.price}</p>
-          <button className="btn btn-danger">Buy Now</button>
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              props.dispatch({
+                type: 'addToCart',
+                payload: {
+                  id: data.id,
+                  name: data.title,
+                  qty: 1,
+                  price: data.price,
+                },
+              });
+              history.push('/cart');
+            }}
+          >
+            Add to Cart
+          </button>
           <button
             className="btn btn-info mx-2"
             onClick={() => {
@@ -63,7 +84,7 @@ function ProductDetail() {
               setTab(0);
             }}
           >
-            Option 1
+            Product Info
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -74,7 +95,7 @@ function ProductDetail() {
               setTab(1);
             }}
           >
-            Option 2
+            Shipping Info
           </Nav.Link>
         </Nav.Item>
       </Nav>
@@ -96,4 +117,11 @@ function TabContent(props) {
     return <div>third tab</div>;
   }
 }
-export default ProductDetail;
+
+function stateToProps(state) {
+  return {
+    state: state.reducer,
+    alertState: state.alertReducer,
+  };
+}
+export default connect(stateToProps)(ProductDetail);
