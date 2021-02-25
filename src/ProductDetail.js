@@ -129,7 +129,7 @@ function ProductDetail(props) {
         </Nav.Item>
       </Nav>
       <CSSTransition in={animSwitch} classNames="wow" timeout={500}>
-        <TabContent tab={tab} setAnimSwitch={setAnimSwitch} />
+        <TabContent data={data} tab={tab} setAnimSwitch={setAnimSwitch} />
       </CSSTransition>
     </div>
   );
@@ -139,11 +139,23 @@ function TabContent(props) {
     props.setAnimSwitch(true);
   });
   if (props.tab === 0) {
-    return <div>first tab</div>;
+    return (
+      <div className="tab-content">
+        <div>{props.data.description}</div>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias,
+          consectetur. Molestias aspernatur consequuntur culpa cupiditate sunt
+          tenetur quam nulla nesciunt voluptatum pariatur alias praesentium
+          veritatis, sint eos iusto, reiciendis molestiae.
+        </p>
+      </div>
+    );
   } else if (props.tab === 1) {
-    return <div>second tab</div>;
-  } else if (props.tab === 2) {
-    return <div>third tab</div>;
+    return (
+      <div className="tab-content">
+        <div>FREE Shipping on orders over $100</div>
+      </div>
+    );
   }
 }
 

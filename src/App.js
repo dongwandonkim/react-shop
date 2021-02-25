@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Jumbotron, Button } from 'react-bootstrap';
 import './App.css';
 import axios from 'axios';
 import { Route, Switch } from 'react-router-dom';
 import NavBar from './NavBar';
-import ProductDetail from './ProductDetail';
-import ProductCard from './ProductCard';
 import Category from './Category';
 import Cart from './Cart';
+
+let ProductDetail = lazy(() => import('./ProductDetail'));
+let ProductCard = lazy(() => import('./ProductCard'));
 
 function App() {
   const [data, setData] = useState([]);
@@ -57,39 +58,43 @@ function App() {
               <Button variant="primary">Learn more</Button>
             </p>
           </Jumbotron>
-          <div className="container">
-            <div className="row">
-              {data
-                ? data.map((d, i) => {
-                    return (
-                      <ProductCard
-                        data={d}
-                        index={d.id}
-                        key={i}
-                        className="product-card"
-                      />
-                    );
-                  })
-                : 'Loading'}
+          <Suspense fallback={<div>Loading...</div>}>
+            <div className="container">
+              <div className="row">
+                {data
+                  ? data.map((d, i) => {
+                      return (
+                        <ProductCard
+                          data={d}
+                          index={d.id}
+                          key={i}
+                          className="product-card"
+                        />
+                      );
+                    })
+                  : 'Loading'}
+              </div>
+              {productIndex <= 16 ? (
+                <button
+                  className="btn btn-info mt-3 mb-3"
+                  onClick={() => {
+                    loadMoreProduct();
+                    setIsLoading(true);
+                  }}
+                  disabled={isLoading}
+                >
+                  {isLoading === true ? 'Loading..' : 'Show more..'}
+                </button>
+              ) : (
+                <div>All products are loaded</div>
+              )}
             </div>
-            {productIndex <= 16 ? (
-              <button
-                className="btn btn-info mt-3 mb-3"
-                onClick={() => {
-                  loadMoreProduct();
-                  setIsLoading(true);
-                }}
-                disabled={isLoading}
-              >
-                {isLoading === true ? 'Loading..' : 'Show more..'}
-              </button>
-            ) : (
-              <div>All products are loaded</div>
-            )}
-          </div>
+          </Suspense>
         </Route>
         <Route exact path="/detail/:id">
-          <ProductDetail data={data} />
+          <Suspense fallback={<div> Loading... </div>}>
+            <ProductDetail data={data} />
+          </Suspense>
         </Route>
         <Route exact path="/category/:categoryName">
           <Category></Category>
