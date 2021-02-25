@@ -27,6 +27,7 @@ function Cart(props) {
                 <td>{data.qty}</td>
                 <td>
                   <button
+                    className="btn btn-secondary"
                     onClick={() => {
                       props.dispatch({ type: 'increase', payload: data.id });
                     }}
@@ -34,6 +35,7 @@ function Cart(props) {
                     +
                   </button>
                   <button
+                    className="btn btn-secondary"
                     onClick={() => {
                       props.dispatch({ type: 'decrease', payload: data.id });
                     }}
