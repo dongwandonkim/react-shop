@@ -6,60 +6,70 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 
-import { connect, Provider } from 'react-redux';
+import { Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 
+//alert modal
 let alertDefaultState = true;
 function alertReducer(alertState = alertDefaultState, action) {
-  if (action.type === 'close') {
-    return !alertState;
-  } else return alertState;
+  switch (action.type) {
+    case 'close': {
+      return !alertState;
+    }
+    default:
+      return alertState;
+  }
 }
 
 let defaultState = [];
 
 function reducer(state = defaultState, action) {
-  if (action.type === 'addToCart') {
-    let sameProductIndex = state.findIndex((d) => {
-      return d.id === action.payload.id;
-    });
-    if (sameProductIndex >= 0) {
-      let copyState = [...state];
-      copyState[sameProductIndex].qty++;
-      return copyState;
-    } else {
-      let copyState = [...state];
-      copyState.push(action.payload);
-      return copyState;
-    }
-  } else if (action.type === 'increase') {
-    let sameProductIndex = state.findIndex((d) => {
-      return d.id === action.payload;
-    });
-    if (sameProductIndex >= 0) {
-      let copyState = [...state];
-      copyState[sameProductIndex].qty++;
-      return copyState;
-    } else {
-      return state;
-    }
-  } else if (action.type === 'decrease') {
-    let sameProductIndex = state.findIndex((d) => {
-      return d.id === action.payload;
-    });
-    if (sameProductIndex >= 0) {
-      let copyState = [...state];
-      if (copyState[sameProductIndex].qty <= 0) {
-        copyState[sameProductIndex].qty = 0;
+  switch (action.type) {
+    case 'addToCart': {
+      let sameProductIndex = state.findIndex((d) => {
+        return d.id === action.payload.id;
+      });
+      if (sameProductIndex >= 0) {
+        let copyState = [...state];
+        copyState[sameProductIndex].qty += parseInt(action.payload.qty);
+        return copyState;
+      } else {
+        let copyState = [...state];
+        copyState.push(action.payload);
         return copyState;
       }
-      copyState[sameProductIndex].qty--;
-      return copyState;
-    } else {
-      return state;
     }
-  } else {
-    return state;
+
+    case 'increase': {
+      let sameProductIndex = state.findIndex((d) => {
+        return d.id === action.payload;
+      });
+      if (sameProductIndex >= 0) {
+        let copyState = [...state];
+        copyState[sameProductIndex].qty++;
+        return copyState;
+      } else {
+        return state;
+      }
+    }
+    case 'decrease': {
+      let sameProductIndex = state.findIndex((d) => {
+        return d.id === action.payload;
+      });
+      if (sameProductIndex >= 0) {
+        let copyState = [...state];
+        if (copyState[sameProductIndex].qty <= 0) {
+          copyState[sameProductIndex].qty = 0;
+          return copyState;
+        }
+        copyState[sameProductIndex].qty--;
+        return copyState;
+      } else {
+        return state;
+      }
+    }
+    default:
+      return state;
   }
 }
 

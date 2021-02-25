@@ -8,10 +8,11 @@ import { connect } from 'react-redux';
 
 function ProductDetail(props) {
   const [alert, setAlert] = useState(true);
-  const [data, setData] = useState([]);
-  const [tab, setTab] = useState(0);
+  const [data, setData] = useState([]); //fetched data
+  const [tab, setTab] = useState(0); //bottom tab nav
   const [animSwitch, setAnimSwitch] = useState(false);
-
+  const [quantity, setQuantity] = useState(1);
+  const [btnAble, setBtnAble] = useState(true);
   let { id } = useParams();
 
   useEffect(() => {
@@ -19,6 +20,7 @@ function ProductDetail(props) {
     let timer = setTimeout(() => {
       setAlert(false);
     }, 3000);
+
     return () => {
       clearTimeout(timer);
     };
@@ -29,6 +31,7 @@ function ProductDetail(props) {
       .get(`https://fakestoreapi.com/products/${id}`)
       .catch((err) => console.error(err));
     setData(res.data);
+    setBtnAble(false);
   };
 
   let history = useHistory();
@@ -47,31 +50,57 @@ function ProductDetail(props) {
           <h4 className="pt-5">{data.title}</h4>
           <p>{data.description}</p>
           <p>${data.price}</p>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              props.dispatch({
-                type: 'addToCart',
-                payload: {
-                  id: data.id,
-                  name: data.title,
-                  qty: 1,
-                  price: data.price,
-                },
-              });
-              history.push('/cart');
-            }}
-          >
-            Add to Cart
-          </button>
-          <button
-            className="btn btn-info mx-2"
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            Back
-          </button>
+          <div className="quantity-wrapper">
+            <label>Qty: {quantity}</label>
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                setQuantity(quantity + 1);
+              }}
+            >
+              +
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                if (quantity <= 1) {
+                  setQuantity(1);
+                } else {
+                  setQuantity(quantity - 1);
+                }
+              }}
+            >
+              -
+            </button>
+          </div>
+          <div className="btn-wrapper">
+            <button
+              disabled={btnAble}
+              className="btn btn-danger mx-2"
+              onClick={() => {
+                props.dispatch({
+                  type: 'addToCart',
+                  payload: {
+                    id: data.id,
+                    name: data.title,
+                    qty: quantity,
+                    price: data.price,
+                  },
+                });
+                history.push('/cart');
+              }}
+            >
+              Add to Cart
+            </button>
+            <button
+              className="btn btn-info mx-2"
+              onClick={() => {
+                history.goBack();
+              }}
+            >
+              Back
+            </button>
+          </div>
           {alert === true ? <div className="alert mt-3">stocks low</div> : null}
         </div>
       </div>
