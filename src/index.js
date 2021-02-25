@@ -78,7 +78,7 @@ let store = createStore(combineReducers({ reducer, alertReducer }));
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename="/steel">
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
