@@ -3,6 +3,9 @@ import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 function Cart(props) {
+  const getPriceOfProduct = (price, qty) => {
+    (Math.round(price * qty * 100) / 100).toFixed(2);
+  };
   return (
     <div>
       <Table responsive="sm">
@@ -21,9 +24,7 @@ function Cart(props) {
               <tr key={i}>
                 <td>{data.id}</td>
                 <td>{data.name}</td>
-                <td>
-                  {(Math.round(data.price * data.qty * 100) / 100).toFixed(2)}
-                </td>
+                <td>{getPriceOfProduct(data.price, data.qty)}</td>
                 <td>{data.qty}</td>
                 <td>
                   <button

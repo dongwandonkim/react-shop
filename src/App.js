@@ -55,7 +55,7 @@ function App() {
               little gifts for your order!
             </p>
             <p>
-              <Button variant="primary">Learn more</Button>
+              <Button className="jumbotron-btn">Learn more</Button>
             </p>
           </Jumbotron>
           <Suspense fallback={<div>Loading...</div>}>
@@ -68,7 +68,7 @@ function App() {
                           data={d}
                           index={d.id}
                           key={i}
-                          className="product-card"
+                          className="product-cards"
                         />
                       );
                     })
@@ -76,7 +76,7 @@ function App() {
               </div>
               {productIndex <= 16 ? (
                 <button
-                  className="btn btn-info mt-3 mb-3"
+                  className="btn btn-info mt-5 mb-5"
                   onClick={() => {
                     loadMoreProduct();
                     setIsLoading(true);

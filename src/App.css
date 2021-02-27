@@ -11,7 +11,11 @@
   background-position: center;
   background-size: cover;
   color: white;
-  height: 50vh;
+  height: 40vh;
+}
+.jumbotron-btn {
+  border: none !important;
+  background: #286783 !important;
 }
 .text-center {
   display: flex;
