@@ -4,8 +4,8 @@ import './ProductCard.scss';
 function ProductCard(props) {
   let history = useHistory();
   return (
-    <div className="col-md-3">
-      <div className="product-wrapper mt-3">
+    <div className="col-6 col-sm-6 col-md-3">
+      <div className="product-wrapper mt-2">
         <div
           className="product-content p-2"
           onClick={() => history.push(`/detail/${props.data.id}`)}

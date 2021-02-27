@@ -30,18 +30,18 @@ function Cart(props) {
                   <button
                     className="btn btn-secondary"
                     onClick={() => {
-                      props.dispatch({ type: 'increase', payload: data.id });
-                    }}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => {
                       props.dispatch({ type: 'decrease', payload: data.id });
                     }}
                   >
                     -
+                  </button>
+                  <button
+                    className="btn btn-secondary ml-2"
+                    onClick={() => {
+                      props.dispatch({ type: 'increase', payload: data.id });
+                    }}
+                  >
+                    +
                   </button>
                 </td>
               </tr>

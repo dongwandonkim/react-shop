@@ -55,14 +55,6 @@ function ProductDetail(props) {
             <button
               className="btn btn-secondary"
               onClick={() => {
-                setQuantity(quantity + 1);
-              }}
-            >
-              +
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
                 if (quantity <= 1) {
                   setQuantity(1);
                 } else {
@@ -71,6 +63,14 @@ function ProductDetail(props) {
               }}
             >
               -
+            </button>
+            <button
+              className="btn btn-secondary"
+              onClick={() => {
+                setQuantity(quantity + 1);
+              }}
+            >
+              +
             </button>
           </div>
           <div className="btn-wrapper">
