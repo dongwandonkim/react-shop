@@ -34,9 +34,9 @@ function Cart(props) {
                 <td>{data.name}</td>
                 <td>{getPriceOfProduct(data.price, data.qty)}</td>
                 <td>{data.qty}</td>
-                <td>
+                <td className="justify-content-center align-items-center">
                   <button
-                    className="btn btn-secondary"
+                    className="btn btn-secondary m-1 justify-content-center"
                     onClick={() => {
                       props.dispatch({ type: 'decrease', payload: data.id });
                     }}
@@ -44,7 +44,7 @@ function Cart(props) {
                     -
                   </button>
                   <button
-                    className="btn btn-secondary ml-2"
+                    className="btn btn-secondary m-1 justify-content-center"
                     onClick={() => {
                       props.dispatch({ type: 'increase', payload: data.id });
                     }}
