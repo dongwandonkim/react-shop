@@ -17,7 +17,7 @@ function ProductCard(props) {
             <span className="info-text text-uppercase">Categories</span>
           </div>
           <div className="price-wrapper text-dark text-left">
-            <span>$ {props.data.price}</span>
+            <span>$ {props.data.price.toFixed(2)}</span>
           </div>
         </div>
       </div>

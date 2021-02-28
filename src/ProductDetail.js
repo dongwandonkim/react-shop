@@ -49,7 +49,7 @@ function ProductDetail(props) {
         <div className="col-md-6 mt-4">
           <h4 className="pt-5">{data.title}</h4>
           <p>{data.description}</p>
-          <p>${data.price}</p>
+          <p>$ {data.price.toFixed(2)}</p>
           <div className="quantity-wrapper">
             <label>Qty: {quantity}</label>
             <button

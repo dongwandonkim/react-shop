@@ -10,7 +10,10 @@ function Cart(props) {
     return priceOfProduct;
   };
   const getTotalPrice = (data) => {
-    let total = data.reduce((sum, i) => sum + i.price * i.qty, 0);
+    let total = data.reduce((sum, i) => {
+      return sum + i.price * i.qty;
+    }, 0);
+
     return (Math.round(total * 100) / 100).toFixed(2);
   };
 
