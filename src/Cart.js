@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 function Cart(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const getPriceOfProduct = (price, qty) => {
-    return (Math.round(price * qty * 100) / 100).toFixed(2);
+    let priceOfProduct = (Math.round(price * qty * 100) / 100).toFixed(2);
+
+    return priceOfProduct;
   };
-  const total = () => {};
-  useEffect(() => {
-    // total;
-  }, []);
+  const getTotalPrice = (data) => {
+    let total = data.reduce((sum, i) => sum + i.price * i.qty, 0);
+    return (Math.round(total * 100) / 100).toFixed(2);
+  };
+
   return (
     <div>
       <Table responsive="sm">
@@ -57,7 +60,7 @@ function Cart(props) {
             <td></td>
             <td></td>
             <td>Total</td>
-            <td>{totalPrice}</td>
+            <td>{getTotalPrice(props.state)}</td>
           </tr>
         </tbody>
       </Table>
