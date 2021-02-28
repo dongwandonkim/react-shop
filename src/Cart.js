@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 function Cart(props) {
+  const [totalPrice, setTotalPrice] = useState(0);
   const getPriceOfProduct = (price, qty) => {
-    (Math.round(price * qty * 100) / 100).toFixed(2);
+    return (Math.round(price * qty * 100) / 100).toFixed(2);
   };
+  const total = () => {};
+  useEffect(() => {
+    // total;
+  }, []);
   return (
     <div>
       <Table responsive="sm">
@@ -47,6 +52,13 @@ function Cart(props) {
               </tr>
             );
           })}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>{totalPrice}</td>
+          </tr>
         </tbody>
       </Table>
       {props.alertState === true ? (

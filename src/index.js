@@ -33,6 +33,7 @@ function reducer(state = defaultState, action) {
       if (sameProductIndex >= 0) {
         let copyState = [...state];
         copyState[sameProductIndex].qty += parseInt(action.payload.qty);
+        console.log(copyState);
         return copyState;
       } else {
         let copyState = [...state];
