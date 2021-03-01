@@ -8,10 +8,12 @@
 }
 .jumbotron {
   background-image: url(assets/jumbotron00.jpg);
+  background-repeat: 'no-repeat';
   background-position: center;
   background-size: cover;
   color: white;
   height: 40vh;
+  width: 100vw;
 }
 .jumbotron-btn {
   border: none !important;
