@@ -27,11 +27,22 @@ function ProductDetail(props) {
   }, [id]);
 
   const fetchSingleItem = async (id) => {
-    let res = await axios
-      .get(`https://fakestoreapi.com/products/${id}`)
-      .catch((err) => console.error(err));
-    setData(res.data);
-    setBtnAble(false);
+    try {
+      let res = await axios.get(`https://fakestoreapi.com/products/${id}`);
+      console.log(res);
+      // setData(res.data);
+      setData({
+        category: res.data.category,
+        description: res.data.description,
+        id: res.data.id,
+        image: res.data.image,
+        price: res.data.price.toFixed(2),
+        title: res.data.title,
+      });
+      setBtnAble(false);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   let history = useHistory();
@@ -49,7 +60,7 @@ function ProductDetail(props) {
         <div className="col-md-6 mt-4">
           <h4 className="pt-5">{data.title}</h4>
           <p>{data.description}</p>
-          <p>$ {data.price.toFixed(2)}</p>
+          <p>$ {data.price}</p>
           <div className="quantity-wrapper">
             <label>Qty: {quantity}</label>
             <button

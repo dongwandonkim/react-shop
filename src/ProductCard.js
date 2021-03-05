@@ -14,7 +14,9 @@ function ProductCard(props) {
           <div className="info-wrapper text-left">
             <span className="info-text text-uppercase">Brand Name</span>
             <span className="info-text d-block">{props.data.title}</span>
-            <span className="info-text text-uppercase">Categories</span>
+            <span className="info-text text-uppercase">
+              {props.data.category}
+            </span>
           </div>
           <div className="price-wrapper text-dark text-left">
             <span>$ {props.data.price.toFixed(2)}</span>
